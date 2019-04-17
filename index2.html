@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+  </head>
+  <body scroll="no">
+    <div id="container" class="wrapper">
+			<!--content-->
+    </div>
+    <script>
+      function onListClick(){
+        var obj = {"method":"select-item"};
+        obj.caption = this.getAttribute('caption');
+        obj.code = this.getAttribute('code');
+        console.log( JSON.stringify(obj) );
+      }
+
+      function addButtons(slist){
+        try{
+					list = JSON.parse(slist);
+          var wrap = document.getElementById('container');
+          if(wrap){
+            for(var i=0;i<list.length;i++){
+							//вертикальное выравнивание через вложенный div
+              var d_parent = document.createElement('div');
+              var d_child = document.createElement('div');
+              d_parent.className = 'list_item_parent';
+              d_child.className = 'list_item';
+
+              d_child.className = 'list_item';
+              d_child.innerHTML = list[i].caption;
+
+							d_parent.appendChild(d_child);
+              d_parent.setAttribute('code', list[i].code);
+              d_parent.setAttribute('caption', list[i].caption);
+              d_parent.onclick = onListClick;
+
+              wrap.appendChild(d_parent);
+            }
+
+            if(wrap.offsetHeight<wrap.scrollHeight){
+              //document.getElementById('btnMore').style.display = 'block';
+            }
+          }
+        }catch(e){
+          console.log('catch: '+e);
+        }
+      }
+      addButtons('[{"caption":"two","code":2}]')
+    </script>
+  </body>
+</html>
